@@ -76,11 +76,11 @@ spec:
         - name: MYSQL_PASSWORD
           value: "Password1!"
         volumeMounts:
-        - name: {{ .Release.Name }}-mysql-pvc
+        - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
   volumeClaimTemplates:
   - metadata:
-      name: {{ .Release.Name }}-mysql-pvc
+      name: mysql-persistent-storage
     spec:
       accessModes: 
         - ReadWriteOnce
