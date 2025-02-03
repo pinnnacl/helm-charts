@@ -16,3 +16,7 @@ mysql:
   image:
     repository: 381492291062.dkr.ecr.us-east-1.amazonaws.com/eks_tasks/database
     tag: latest
+  space:
+    storage: 1Gi
+    path: /mnt/mysql-pv
+    
