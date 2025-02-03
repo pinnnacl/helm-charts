@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-frontend-deployment
+  labels:
+    app: {{ .Release.Name }}-frontend
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-frontend
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          ports:
+            - containerPort: 5000
+          env:
+            - name: BACKEND_URL
+              value: "{{ .Values.frontend.backendUrl }}"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-backend-deployment
+  labels:
+    app: {{ .Release.Name }}-backend
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-backend
+  template:
+    metadata:
+      labels: 
+        app: {{ .Release.Name }}-backend
+    spec:
+      containers:
+        - name: backend
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          ports:
+            - containerPort: 8000
+---
+# StatefulSet Definition
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-mysqldb
+spec:
+  serviceName: {{ .Release.Name }}-mysqldb
+  replicas: 1  # Number of replicas
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-mysqldb
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-mysqldb
+    spec:
+      containers:
+      - name: mysql
+        image: "{{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}" 
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "rootpassword"
+        - name: MYSQL_DATABASE
+          value: "employees_db"
+        - name: MYSQL_USER
+          value: "archit"
+        - name: MYSQL_PASSWORD
+          value: "Password1!"
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ .Release.Name }}-mysql-pvc
+    spec:
+      accessModes: 
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: {{ .Values.mysql.space.storage }} 
+      storageClassName: {{ .Values.mysql.storageClass | default "standard" }}
+
+

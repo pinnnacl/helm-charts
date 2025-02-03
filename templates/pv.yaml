@@ -1,0 +1,16 @@
+# Persistent Volume Definition
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Release.Name }}-mysql-pv
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: {{ .Values.mysql.space.storage }}  
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard  # Matches the PVC
+  hostPath:
+    path: {{ .Values.mysql.space.path }}

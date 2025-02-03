@@ -1,0 +1,18 @@
+frontend:
+  replicaCount: 2
+  image:
+    repository: 381492291062.dkr.ecr.us-east-1.amazonaws.com/eks-tasks
+    tag: latest
+  backendUrl: "http://backend-service:8000"
+
+backend:
+  replicaCount: 2
+  image:
+    repository: 381492291062.dkr.ecr.us-east-1.amazonaws.com/eks_tasks/backend
+    tag: latest
+
+mysql:
+  replicaCount: 1
+  image:
+    repository: 381492291062.dkr.ecr.us-east-1.amazonaws.com/eks_tasks/database
+    tag: latest
