@@ -88,5 +88,3 @@ spec:
         requests:
           storage: {{ .Values.mysql.space.storage }} 
       storageClassName: {{ .Values.mysql.storageClass | default "standard" }}
-
-
