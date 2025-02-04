@@ -19,4 +19,3 @@ mysql:
   space:
     storage: 1Gi
     path: /mnt/mysql-pv
-    
