@@ -1,0 +1,17 @@
+{{- if .Values.storage }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-storage
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: {{ .Values.storage.size }}  
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.storage.storageClassName }}
+  hostPath:
+    path: {{ .Values.storage.path }}
+{{- end }}

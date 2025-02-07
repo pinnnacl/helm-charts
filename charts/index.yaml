@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  orange:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-02-07T09:33:46.895313333Z"
+    description: A Helm chart for Kubernetes
+    digest: ce1d1bd1d079767a6cfe787a47c0dd2c0dcad1778e52303060a9f7b9ccfcc74d
+    name: orange
+    type: application
+    urls:
+    - orange-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-02-07T09:33:46.8930957Z"
